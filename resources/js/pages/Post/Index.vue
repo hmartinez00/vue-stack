@@ -52,13 +52,22 @@ const destroy = (id: number) => {
                                     <table class="w-full divide-y divide-gray-300 dark:divide-gray-700">
                                         <thead>
                                             <tr>
+                                                <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">No</th>
                                                <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">title</th>
                                                <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">content</th>
                                              </tr>
                                        </thead>
                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
 
-                                           <tr v-for="post in props.posts.data" :key="post.id" class="even:bg-gray-50 dark:even:bg-gray-700">
+                                           <tr v-for="(post, index) in props.posts.data" :key="post.id" class="even:bg-gray-50 dark:even:bg-gray-700">
+                                               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                                   <template v-if="props.posts.meta">
+                                                       {{ props.posts.meta.from + index }}
+                                                   </template>
+                                                   <template v-else>
+                                                       {{ index + 1 }}
+                                                   </template>
+                                               </td>
                                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ post.title }}</td>
                                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ post.content }}</td>
 

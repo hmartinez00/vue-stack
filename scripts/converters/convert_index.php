@@ -129,7 +129,8 @@ const destroy = (id: number) => {
                                 <div class="inline-block min-w-full py-2 align-middle">
                                     <table class="w-full divide-y divide-gray-300 dark:divide-gray-700">
                                         <thead>
-                                            <tr>\n
+                                            <tr>
+                                                <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">No</th>\n
 VUE;
 
 foreach ($formFields as $field) {
@@ -139,7 +140,15 @@ foreach ($formFields as $field) {
 $vueCode .= "                                             </tr>\n";
 $vueCode .= "                                       </thead>\n";
 $vueCode .= "                                       <tbody class=\"divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800\">\n\n";
-$vueCode .= "                                           <tr v-for=\"{$singularLowerModelName} in props.{$pluralModelName}.data\" :key=\"{$singularLowerModelName}.id\" class=\"even:bg-gray-50 dark:even:bg-gray-700\">\n";
+$vueCode .= "                                           <tr v-for=\"({$singularLowerModelName}, index) in props.{$pluralModelName}.data\" :key=\"{$singularLowerModelName}.id\" class=\"even:bg-gray-50 dark:even:bg-gray-700\">\n";
+$vueCode .= "                                               <td class=\"whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 dark:text-gray-100\">\n";
+$vueCode .= "                                                   <template v-if=\"props.{$pluralModelName}.meta\">\n";
+$vueCode .= "                                                       {{ props.{$pluralModelName}.meta.from + index }}\n";
+$vueCode .= "                                                   </template>\n";
+$vueCode .= "                                                   <template v-else>\n";
+$vueCode .= "                                                       {{ index + 1 }}\n";
+$vueCode .= "                                                   </template>\n";
+$vueCode .= "                                               </td>\n";
 
 foreach ($formFields as $field) {
     $vueCode .= "                                               <td class=\"whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 dark:text-gray-100\">{{ {$singularLowerModelName}.{$field} }}</td>\n";
