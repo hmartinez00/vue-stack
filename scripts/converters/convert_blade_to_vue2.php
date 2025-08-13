@@ -11,14 +11,13 @@ use Symfony\Component\Process\Process;
 /**
  * Valida que se hayan pasado el nombre del modelo y el nombre de la vista como argumentos.
  */
-if ($argc < 2) {
-    // die("Uso: php convert_blade_to_vue.php <NombreDelModelo> <NombreDeLaVista>\n");
-    die("Uso: php convert_blade_to_vue.php <NombreDelModelo>\n");
+if ($argc < 3) {
+    die("Uso: php convert_blade_to_vue.php <NombreDelModelo> <NombreDeLaVista>\n");
 }
 
 $singularLowerModelName = strtolower($argv[1]);
 $modelName = ucfirst($singularLowerModelName);
-// $viewName = ucfirst($argv[2]);
+$viewName = ucfirst($argv[2]);
 
 echo "\n¡Generando archivos!\n";
 

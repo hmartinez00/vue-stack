@@ -32,7 +32,7 @@ const destroy = (id: number) => {
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
 
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-950 shadow sm:rounded-lg">
                     <div class="w-full">
                         <div class="sm:flex sm:items-center">
                             <div class="sm:flex-auto">
