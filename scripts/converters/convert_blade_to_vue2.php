@@ -3,7 +3,7 @@
 // Agrega esta línea para incluir el autoloader de Composer.
 // La ruta '../vendor/autoload.php' permite que el script
 // encuentre las librerías instaladas por Laravel.
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -11,13 +11,14 @@ use Symfony\Component\Process\Process;
 /**
  * Valida que se hayan pasado el nombre del modelo y el nombre de la vista como argumentos.
  */
-if ($argc < 3) {
-    die("Uso: php convert_blade_to_vue.php <NombreDelModelo> <NombreDeLaVista>\n");
+if ($argc < 2) {
+    // die("Uso: php convert_blade_to_vue.php <NombreDelModelo> <NombreDeLaVista>\n");
+    die("Uso: php convert_blade_to_vue.php <NombreDelModelo>\n");
 }
 
 $singularLowerModelName = strtolower($argv[1]);
 $modelName = ucfirst($singularLowerModelName);
-$viewName = ucfirst($argv[2]);
+// $viewName = ucfirst($argv[2]);
 
 echo "\n¡Generando archivos!\n";
 
@@ -36,6 +37,7 @@ function executePhpScript(string $phpScript, string $modelName, string $viewName
     // Aquí es donde se construye el comando completo, incluyendo el ejecutable y los argumentos.
     $command = [$phpExecutable, $phpScript, $modelName, $viewName];
 
+
     // Se inicializa la variable $process con el comando.
     $process = new Process($command);
 
@@ -46,7 +48,7 @@ function executePhpScript(string $phpScript, string $modelName, string $viewName
             throw new ProcessFailedException($process);
         }
 
-        echo 'El procedimiento ha finalizado exitosamente.';
+        // echo 'El procedimiento ha finalizado exitosamente.';
 
     } catch (ProcessFailedException $exception) {
         // En caso de error, muestra el mensaje de error del proceso.
@@ -60,34 +62,35 @@ function executePhpScript(string $phpScript, string $modelName, string $viewName
 /**
  * Lógica de conversión específica para cada tipo de vista.
  */
+
 if ($viewName === 'Form') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
 
-    $phpScript = 'convert_form.php';
+    $phpScript = 'scripts/converters/convert_form.php';
     executePhpScript($phpScript, $modelName, $viewName);
 
 } elseif ($viewName === 'Index') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
 
-    $phpScript = 'convert_index.php';
+    $phpScript = 'scripts/converters/convert_index.php';
     executePhpScript($phpScript, $modelName, $viewName);
 
 } elseif ($viewName === 'Create') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
 
-    $phpScript = 'convert_create.php';
+    $phpScript = 'scripts/converters/convert_create.php';
     executePhpScript($phpScript, $modelName, $viewName);
 
 } elseif ($viewName === 'Edit') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
 
-    $phpScript = 'convert_edit.php';
+    $phpScript = 'scripts/converters/convert_edit.php';
     executePhpScript($phpScript, $modelName, $viewName);
 
 } elseif ($viewName === 'Show') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
 
-    $phpScript = 'convert_show.php';
+    $phpScript = 'scripts/converters/convert_show.php';
     executePhpScript($phpScript, $modelName, $viewName);
 
 } else {

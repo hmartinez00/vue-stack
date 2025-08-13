@@ -16,7 +16,8 @@ $modelName = ucfirst($singularLowerModelName);
 $pluralModelName = strtolower($modelName) . 's';
 
 $controllerName = $argv[1] . 'Controller';
-$controllerPath = "../app/Http/Controllers/{$controllerName}.php";
+// $controllerPath = "../app/Http/Controllers/{$controllerName}.php";
+$controllerPath = "app/Http/Controllers/{$controllerName}.php";
 
 // Asegúrate de que el archivo del controlador existe.
 if (!file_exists($controllerPath)) {

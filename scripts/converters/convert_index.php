@@ -28,7 +28,8 @@ $pluralModelName = strtolower($modelName) . 's';
  * Definimos las rutas de los archivos.
  */
 $bladePath = "resources/views/{$singularLowerModelName}/{$argv[2]}.blade.php";
-$fullBladePath = "../" . $bladePath;
+// $fullBladePath = "../" . $bladePath;
+$fullBladePath = "" . $bladePath;
 
 /**
  * Verificamos que el archivo Blade exista antes de intentar leerlo.
@@ -43,7 +44,8 @@ $bladeContent = file_get_contents($fullBladePath);
  * Definimos el directorio de salida para los archivos Vue.
  */
 
-$vueDir = "../resources/js/Pages/{$modelName}";
+// $vueDir = "../resources/js/Pages/{$modelName}";
+$vueDir = "resources/js/Pages/{$modelName}";
 $vuePath = "{$vueDir}/{$viewName}.vue";
 
 
@@ -65,7 +67,8 @@ function getFormFieldsFromBladeContent(string $formContent): array
 // PASO 1: Obtener los campos del formulario desde el contenido Blade.
 // -------------------------------------------------------------------------
 $formPath = "resources/views/{$singularLowerModelName}/form.blade.php";
-$fullformPath = "../" . $formPath;
+// $fullformPath = "../" . $formPath;
+$fullformPath = "" . $formPath;
 $formContent = file_get_contents($fullformPath);
 $formFields = getFormFieldsFromBladeContent($formContent);
 

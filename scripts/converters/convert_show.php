@@ -28,7 +28,8 @@ $pluralModelName = strtolower($modelName) . 's';
  * Definimos las rutas de los archivos.
  */
 $bladePath = "resources/views/{$singularLowerModelName}/{$argv[2]}.blade.php";
-$fullBladePath = "../" . $bladePath;
+// $fullBladePath = "../" . $bladePath;
+$fullBladePath = "" . $bladePath;
 
 /**
  * Verificamos que el archivo Blade exista antes de intentar leerlo.
@@ -43,7 +44,8 @@ $bladeContent = file_get_contents($fullBladePath);
  * Definimos el directorio de salida para los archivos Vue.
  */
 
-$vueDir = "../resources/js/Pages/{$modelName}";
+// $vueDir = "../resources/js/Pages/{$modelName}";
+$vueDir = "resources/js/Pages/{$modelName}";
 $vuePath = "{$vueDir}/{$viewName}.vue";
 
 
@@ -65,7 +67,8 @@ function getFormFieldsFromBladeContent(string $formContent): array
 // PASO 1: Obtener los campos del formulario desde el contenido Blade.
 // -------------------------------------------------------------------------
 $formPath = "resources/views/{$singularLowerModelName}/form.blade.php";
-$fullformPath = "../" . $formPath;
+// $fullformPath = "../" . $formPath;
+$fullformPath = "" . $formPath;
 $formContent = file_get_contents($fullformPath);
 $formFields = getFormFieldsFromBladeContent($formContent);
 
@@ -75,73 +78,65 @@ $formFields = getFormFieldsFromBladeContent($formContent);
 $vueCode = <<<VUE
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, type {$modelName} } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import Form from '@/pages/{$modelName}/Form.vue';
+import { type BreadcrumbItem, type {$singularLowerModelName} } from '@/types';
+import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps<{
-    {$singularLowerModelName}: {$modelName};
-}>();\n\n
-VUE;
+    {$singularLowerModelName}: {$singularLowerModelName};
+}>();
 
-$vueCode .= "const form = useForm({\n";
-
-foreach ($formFields as $field) {
-    $vueCode .= "\t{$field}: props.{$singularLowerModelName}.{$field},\n";
-}
-
-$vueCode .= "});\n\n";
-
-$vueCode = $vueCode . <<<VUE
-// Definimos el array para el breadcrumb de la página
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: '{$pluralModelName}',
-        href: route('{$pluralModelName}.index'),
+        title: '{$singularLowerModelName}s',
+        href: route('{$singularLowerModelName}s.index'),
     },
     {
-        title: 'Editar',
-        href: route('{$pluralModelName}.edit', props.{$singularLowerModelName}.id),
+        title: 'Ver',
+        href: route('{$singularLowerModelName}s.show', props.{$singularLowerModelName}.id),
     },
 ];
-
-// Función para enviar el formulario de actualización
-// `form.patch` hace una petición PATCH a la ruta '{$pluralModelName}.update'
-const submit = () => {
-    form.patch(route('{$pluralModelName}.update', props.{$singularLowerModelName}.id), {
-        // El controlador se encargará de la redirección y el mensaje de éxito
-    });
-};
 </script>
 
 <template>
-    <Head :title="`Editar {$singularLowerModelName}`" />
+    <Head :title="`Ver {$singularLowerModelName}: $\\{props.{$singularLowerModelName}.name\\}`" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <!-- Contenedor principal que se adapta al diseño del dashboard -->
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-            <!-- Contenedor del panel principal con fondo y bordes adaptativos -->
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="w-full">
                         <div class="sm:flex sm:items-center">
                             <div class="sm:flex-auto">
-                                <h1 class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">Editar {$singularLowerModelName}</h1>
-                                <p class="mt-2 text-sm text-gray-700 dark:text-gray-400">Actualiza la información del {$singularLowerModelName}.</p>
+                                <h1 class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">Ver {$singularLowerModelName}</h1>
+                                <p class="mt-2 text-sm text-gray-700 dark:text-gray-400">Detalles del {$singularLowerModelName}.</p>
                             </div>
                             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                                <!-- Usamos el componente Link de Inertia para el botón de "Volver" -->
-                                <Link :href="route('{$pluralModelName}.index')" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                <Link :href="route('{$singularLowerModelName}s.index')" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                     Volver
+                                </Link>
+                                <Link :href="route('{$singularLowerModelName}s.edit', props.{$singularLowerModelName}.id)" class="ml-2 block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                                    Editar
                                 </Link>
                             </div>
                         </div>
 
                         <div class="flow-root">
                             <div class="mt-8 overflow-x-auto">
-                                <div class="max-w-xl py-2 align-middle">
-                                    <!-- Aquí usamos el nuevo componente Form -->
-                                    <Form :form="form" @submit="submit" buttonText="Actualizar" />
+                                <div class="inline-block min-w-full py-2 align-middle">
+                                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700">
+                                        <div class="divide-y divide-gray-100 dark:divide-gray-700">\n\n
+VUE;
+
+foreach ($formFields as $field) {
+    $vueCode .= "\t\t\t\t\t\t\t\t\t\t\t<div class=\"px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0\">\n";
+    $vueCode .= "\t\t\t\t\t\t\t\t\t\t\t\t<dt class=\"text-sm font-medium leading-6 text-gray-900 dark:text-gray-100\">$field</dt>\n";
+    $vueCode .= "\t\t\t\t\t\t\t\t\t\t\t\t<dd class=\"mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0\">{{ props.{$singularLowerModelName}.{$field} }}</dd>\n";
+    $vueCode .= "\t\t\t\t\t\t\t\t\t\t\t</div>\n\n";
+}
+
+$vueCode = $vueCode . "\n" . <<<VUE
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
