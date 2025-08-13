@@ -1,5 +1,0 @@
-{
-    "use Illuminate\\View\\View;": "use Inertia\\Inertia;",
-    ": View": "",
-    "return view\\('{singularLowerModelName}.index', compact\\('{pluralModelName}'\\)\\)\\s*->with\\(.*?\\);/s": "return Inertia::render('{inertiaPath}/Index', [\n            '{pluralModelName}' => {pluralModelName},\n        ]);"
-}

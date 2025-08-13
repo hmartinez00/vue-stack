@@ -12,11 +12,11 @@ use Inertia\Inertia;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra la lista de posts.
      */
     public function index(Request $request)
     {
-        $posts = Post::paginate();
+        $posts = Post::paginate(10); // Ajustamos la paginación
 
         return Inertia::render('Post/Index', [
             'posts' => $posts,
@@ -24,17 +24,15 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo post.
      */
     public function create()
     {
-        $post = new Post();
-
         return Inertia::render('Post/Create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo post.
      */
     public function store(PostRequest $request): RedirectResponse
     {
@@ -45,29 +43,27 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra un post específico.
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
-
         return Inertia::render('Post/Show', [
             'post' => $post,
         ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un post.
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
-
-        return view('post.edit', compact('post'));
+        return Inertia::render('Post/Edit', [
+            'post' => $post,
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un post.
      */
     public function update(PostRequest $request, Post $post): RedirectResponse
     {
@@ -77,9 +73,12 @@ class PostController extends Controller
             ->with('success', 'Post updated successfully');
     }
 
-    public function destroy($id): RedirectResponse
+    /**
+     * Elimina un post.
+     */
+    public function destroy(Post $post): RedirectResponse
     {
-        Post::find($id)->delete();
+        $post->delete();
 
         return Redirect::route('posts.index')
             ->with('success', 'Post deleted successfully');

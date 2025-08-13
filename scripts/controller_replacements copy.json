@@ -1,9 +1,0 @@
-{
-    "use Illuminate\\View\\View;": "use Inertia\\Inertia;",
-    "/: View/": "",
-    "return view\\('{singularLowerModelName}.index', compact\\('{pluralModelName}'\\)\\)\\s*->with\\(.*?\\);/s": "return Inertia::render('{inertiaPath}/Index', [\n            '{pluralModelName}' => {pluralModelName},\n        ]);",
-    "/return view\\('{singularLowerModelName}.create', compact\\('{singularLowerModelName}'\\));/s": "return Inertia::render('{inertiaPath}/Create');",
-    "/public function show\\(\\$id\\): View\\s*\\{\\s*\\$(.*?)\\s*=\\s*([a-zA-Z]+)::find\\(\\$id\\);\\s*return view\\('{singularLowerModelName}.show', compact\\('{singularLowerModelName}'\\));\\s*\\}/s": "public function show({modelName} ${singularLowerModelName})\n    {\n        return Inertia::render('{inertiaPath}/Show', [\n            '{singularLowerModelName}' => ${singularLowerModelName},\n        ]);\n    }",
-    "/public function edit\\(\\$id\\): View\\s*\\{\\s*\\$(.*?)\\s*=\\s*([a-zA-Z]+)::find\\(\\$id\\);\\s*return view\\('{singularLowerModelName}.edit', compact\\('{singularLowerModelName}'\\));\\s*\\}/s": "public function edit({modelName} ${singularLowerModelName})\n    {\n        return Inertia::render('{inertiaPath}/Edit', [\n            '{singularLowerModelName}' => ${singularLowerModelName},\n        ]);\n    }",
-    "/public function destroy\\(\\$id\\): RedirectResponse\\s*\\{\\s*([a-zA-Z]+)::find\\(\\$id\\)->delete\\(\\);\\s*return Redirect::route\\('{pluralModelName}.index'\\)\\s*->with\\('success', '{modelName} deleted successfully'\\);\\s*\\}/s": "public function destroy({modelName} ${singularLowerModelName}): RedirectResponse\n    {\n        ${singularLowerModelName}->delete();\n\n        return Redirect::route('{pluralModelName}.index')\n            ->with('success', '{modelName} deleted successfully');\n    }"
-}

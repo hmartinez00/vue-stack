@@ -74,11 +74,15 @@ if ($viewName === 'Form') {
 
 } elseif ($viewName === 'Create') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
-    // Inyecta aca la lógica de conversión para el create
+
+    $phpScript = 'convert_create.php';
+    executePhpScript($phpScript, $modelName, $viewName);
 
 } elseif ($viewName === 'Edit') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
-    // Inyecta aca la lógica de conversión para el edit
+
+    $phpScript = 'convert_edit.php';
+    executePhpScript($phpScript, $modelName, $viewName);
 
 } elseif ($viewName === 'Show') {
     echo "¡Haz seleccionado " . $viewName . "!\n";
