@@ -51,6 +51,10 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            // Agregamos una nueva prop global llamada 'permissions'
+            'permissions' => fn () => $request->user()
+                ? $request->user()->getAllPermissions()->pluck('name')
+                : [],
         ];
     }
 }
