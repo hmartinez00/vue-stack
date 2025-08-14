@@ -11,6 +11,11 @@ use Inertia\Inertia;
 
 class MigrationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:migrations.index');
+    }
+
     /**
      * Muestra la lista de migrations.
      */
