@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\MyNewPageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -24,6 +25,7 @@ Route::get('my-new-page', [MyNewPageController::class, 'index'])
 
 Route::resource('products', ProductController::class);
 Route::resource('posts', PostController::class);
+Route::resource('migrations', MigrationController::class);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

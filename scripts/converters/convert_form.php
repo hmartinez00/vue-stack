@@ -28,7 +28,6 @@ $pluralModelName = strtolower($modelName) . 's';
  * Definimos las rutas de los archivos.
  */
 $bladePath = "resources/views/{$singularLowerModelName}/{$argv[2]}.blade.php";
-// $fullBladePath = "../" . $bladePath;
 $fullBladePath = "" . $bladePath;
 
 /**
@@ -43,11 +42,18 @@ $bladeContent = file_get_contents($fullBladePath);
 /**
  * Definimos el directorio de salida para los archivos Vue.
  */
-
-// $vueDir = "../resources/js/Pages/{$modelName}";
 $vueDir = "resources/js/Pages/{$modelName}";
 $vuePath = "{$vueDir}/{$viewName}.vue";
 
+// -------------------------------------------------------------------------
+// MODIFICACIÓN:
+// Verificamos si el directorio de destino existe, si no, lo creamos.
+// Esto evita un error de 'file_put_contents' si la ruta no existe.
+// -------------------------------------------------------------------------
+if (!is_dir($vueDir)) {
+    mkdir($vueDir, 0777, true);
+    echo "Directorio creado: {$vueDir}\n";
+}
 
 /**
  * Función para extraer dinámicamente los IDs de los campos del formulario.
@@ -144,8 +150,8 @@ $vueCode .= "</template>";
 // -------------------------------------------------------------------------
 // PASO 3: Imprimir el código del componente de Vue generado.
 // -------------------------------------------------------------------------
-// echo $vueCode;
-
 file_put_contents($vuePath, $vueCode);
 
 echo "¡Vista Blade convertida a componente Vue con éxito!\n";
+
+?>

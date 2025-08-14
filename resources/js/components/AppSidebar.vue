@@ -30,6 +30,11 @@ const mainNavItems: NavItem[] = [
         href: route('my-new-page'), // <-- Es mejor usar la función route() aquí
         icon: BarChart3,
     },
+    {
+        title: 'Migrations',
+        href: route('migrations.index'), // <-- Es mejor usar la función route() aquí
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
